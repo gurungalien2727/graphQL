@@ -3,6 +3,7 @@ const expressGraphQL = require('express-graphql').graphqlHTTP;
 const schema = require('./schema/schema');
 const app = express();
 
+
 app.use('/graphql', expressGraphQL({
     schema: schema,
     graphiql:true
@@ -11,3 +12,4 @@ app.use('/graphql', expressGraphQL({
 app.listen(4000, ()=>{
     console.log('Listening on port 4000');
 })
+
