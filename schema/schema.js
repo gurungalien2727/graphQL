@@ -9,19 +9,29 @@ const {
     GraphQLSchema
 } = graphql;
 
+const CompanyType = new GraphQLObjectType({
+    name:'Company',
+    fields:{
+        id: {type: GraphQLString},
+        name: {type: GraphQLString},
+        description: {type:GraphQLString}
+    }
+})
+
 // instruct graphQL about the presence of user in our application
-
-const users = [
-    {id: '23', firstName: 'Bill', age:20 },
-    {id:'47', firstName:'Alex', age:24}
-];
-
 const UserType = new GraphQLObjectType({
 name: 'User',
 fields:{
     id: {type:  GraphQLString},
     firstName: {type: GraphQLString},
-    age: {type: GraphQLInt}
+    age: {type: GraphQLInt},
+    company: {
+        type: CompanyType,
+        resolve(parentValue, args){
+            return axios.get(`http://localhost:3000/companies/${parentValue.companyId}`)
+            .then(res => res.data);
+        }
+    }
 }
 });
 
